@@ -19,7 +19,11 @@ returns.
 ## Setup
 
 1. `cp .env.example .env.local` and fill in the Shopify values. The Storefront
-   access token comes from *Settings → Apps and sales channels → Develop apps*.
+   access token comes from *Settings → Apps and sales channels → Develop apps*
+   — create an app, tick the Storefront API scopes listed in `.env.example`,
+   install it, then copy the token from the app's *API credentials* tab.
+   Adding the Headless sales channel is an equivalent route and issues the
+   token for you.
 2. `npm install`
 3. `npm run dev`
 
