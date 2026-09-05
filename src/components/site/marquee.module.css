@@ -1,0 +1,48 @@
+.marquee {
+  overflow: hidden;
+  padding: clamp(2rem, 1rem + 3vw, 4rem) 0;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 32s linear infinite;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 3rem;
+}
+
+.mark {
+  font-size: clamp(2rem, 1rem + 3vw, 3.25rem);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  color: #d8f018;
+  -webkit-text-stroke: 1px var(--lxp-ink);
+}
+
+.text {
+  font-size: clamp(2.5rem, 1rem + 5vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--lxp-ink);
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* The track holds four copies; shifting by half returns to an identical
+     * frame, so the loop has no visible seam. */
+    transform: translateX(-50%);
+  }
+}

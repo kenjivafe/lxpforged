@@ -51,6 +51,8 @@ export type Product = {
   description: string;
   descriptionHtml: string;
   availableForSale: boolean;
+  /** Shopify's vendor field; rendered as the eyebrow above each card title. */
+  vendor: string;
   options: ProductOption[];
   priceRange: {
     minVariantPrice: Money;

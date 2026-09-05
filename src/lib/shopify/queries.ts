@@ -29,6 +29,7 @@ const productFragment = /* GraphQL */ `
     description
     descriptionHtml
     availableForSale
+    vendor
     tags
     updatedAt
     options {

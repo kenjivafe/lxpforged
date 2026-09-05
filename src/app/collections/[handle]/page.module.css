@@ -1,7 +1,7 @@
 .main {
-  max-width: 1200px;
+  max-width: var(--page-max);
   margin: 0 auto;
-  padding: 3rem 1.25rem 6rem;
+  padding: clamp(2rem, 1rem + 3vw, 4rem) var(--gutter) 0;
 }
 
 .header {
@@ -18,19 +18,19 @@
 .description {
   margin: 0;
   line-height: 1.65;
-  opacity: 0.75;
+  color: var(--muted);
 }
 
 .grid {
   display: grid;
-  gap: 2rem 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 1rem;
+    gap: 1rem;
   }
 }
 
