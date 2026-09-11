@@ -51,6 +51,28 @@ export const legalLinks: NavItem[] = [
 /** Marketing assets live on the storefront domain's Shopify CDN path. */
 const CDN = "https://lxpforged.com/cdn/shop/files";
 
+/**
+ * The winged LXP lockup, in two variants.
+ *
+ * `light` is the full lockup with the tagline, rendered at the live header's
+ * 150x68. Its background is opaque white — fine on the white header, a visible
+ * box anywhere dark — so the ink footer uses `dark`, the genuinely transparent
+ * mark, knocked out to white with a filter.
+ */
+export const logo = {
+  light: {
+    src: `${CDN}/Screenshot_2026-03-11_at_23.48.54.png`,
+    width: 1758,
+    height: 800,
+  },
+  dark: {
+    src: `${CDN}/LXP_transparent.png`,
+    width: 1024,
+    height: 381,
+  },
+  alt: "LXP \u2014 Luxury Performance Parts",
+} as const;
+
 export type Slide = {
   heading: string;
   ctaLabel: string;

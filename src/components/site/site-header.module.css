@@ -1,9 +1,23 @@
+/* Zero-height marker directly above the header; once it scrolls out of view
+ * the header is stuck. */
+.sentinel {
+  height: 0;
+}
+
 .header {
   position: sticky;
   top: 0;
   z-index: 40;
   background: var(--background);
   border-bottom: 1px solid var(--border-light);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  transition: border-radius 0.18s ease;
+}
+
+/* Flush against the viewport edge, the rounded corners would show the ink
+ * document background through them. */
+.header[data-stuck] {
+  border-radius: 0;
 }
 
 .inner {
@@ -13,7 +27,9 @@
   gap: 1rem;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: 1rem var(--gutter);
+  /* 32px vertical, 48px horizontal at desktop — the live header measures 132px
+   * tall with a 150x68 logo inside. */
+  padding: clamp(0.875rem, 0.65rem + 1.5vw, 2rem) var(--gutter);
 }
 
 .brand {
@@ -23,7 +39,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 0.25rem + 2vw, 2.5rem);
+  gap: clamp(1rem, 0.25rem + 1.85vw, 2.5rem);
   justify-self: center;
 }
 

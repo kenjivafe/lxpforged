@@ -11,8 +11,7 @@
 
 .title {
   margin: 0 0 0.75rem;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.1;
+  font-size: var(--font-h2);
 }
 
 .description {

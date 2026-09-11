@@ -1,26 +1,10 @@
 .logo {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  line-height: 1;
+  /* Lands on exactly 150px at a 1440 viewport, matching the live header. */
+  width: clamp(108px, 85.2px + 4.5vw, 150px);
+  height: auto;
 }
 
-.mark {
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  font-style: italic;
-}
-
-.tagline {
-  font-size: 0.5rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.75;
-  white-space: nowrap;
-}
-
+/* The mark is solid black on transparent, so the ink footer inverts it. */
 .inverted {
-  color: #fff;
+  filter: invert(1);
 }
