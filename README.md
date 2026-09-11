@@ -27,8 +27,15 @@ returns.
 2. `npm install`
 3. `npm run dev`
 
-Without credentials the app still builds; catalogue routes simply render on
-demand and error at request time rather than being prerendered.
+`SHOPIFY_STOREFRONT_ACCESS_TOKEN` is optional: Shopify serves public catalogue
+and cart operations to unauthenticated Storefront requests, and this store does
+so today. Leave it empty rather than wrong — an invalid token is rejected with a
+401, whereas an absent one is not. Setting a real token is still the right end
+state, since it is the documented path and unauthenticated access is behaviour
+Shopify could tighten.
+
+Without `SHOPIFY_STORE_DOMAIN` the app still builds; catalogue routes simply
+render on demand and error at request time rather than being prerendered.
 
 ## Routes
 
