@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ProductPurchase } from "@/components/shop/product-purchase";
+import { ProductSpecs } from "@/components/shop/product-specs";
 import { getAllProductHandles, getProduct } from "@/lib/shopify";
 
 import styles from "./page.module.css";
@@ -114,15 +115,22 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           )}
         </div>
 
+        {/* The title lives inside ProductPurchase so the label pill, vendor and
+          * price stay one block, matching the live storefront's panel. */}
         <div className={styles.details}>
-          <h1 className={styles.title}>{product.title}</h1>
           <ProductPurchase product={product} />
-          <div
-            className={styles.description}
-            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-          />
         </div>
       </div>
+
+      <ProductSpecs specs={product.specs} />
+
+      <section className={styles.detailsSection}>
+        <h2 className={styles.detailsHeading}>Product details</h2>
+        <div
+          className={styles.description}
+          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+        />
+      </section>
     </main>
   );
 }

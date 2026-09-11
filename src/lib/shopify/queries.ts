@@ -29,7 +29,44 @@ const productFragment = /* GraphQL */ `
     description
     descriptionHtml
     availableForSale
+    vendor
+    productType
     tags
+    # Theme metafields drive the merchandising chrome on the live storefront:
+    # a coloured label pill, a special-order notice, and the "Highlights" specs.
+    # Each needs unauthenticated_read_metafields; without that scope Shopify
+    # resolves them to null and the UI simply omits them.
+    label: metafield(namespace: "theme", key: "label") {
+      value
+    }
+    labelColor: metafield(namespace: "theme", key: "label_color") {
+      value
+    }
+    specialOrder: metafield(namespace: "custom", key: "special_order") {
+      value
+    }
+    specs: metafield(namespace: "custom", key: "product_icons") {
+      references(first: 6) {
+        edges {
+          node {
+            ... on Metaobject {
+              id
+              fields {
+                key
+                value
+                reference {
+                  ... on MediaImage {
+                    image {
+                      ...image
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     updatedAt
     options {
       id
@@ -51,6 +88,7 @@ const productFragment = /* GraphQL */ `
         node {
           id
           title
+          sku
           availableForSale
           selectedOptions {
             name

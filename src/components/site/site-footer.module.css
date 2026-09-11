@@ -1,0 +1,142 @@
+.footer {
+  background: var(--lxp-ink);
+  color: #fff;
+  margin-top: var(--section-gap);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 1rem + 4vw, 5rem);
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: clamp(3rem, 2rem + 3vw, 5rem) var(--gutter);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.heading {
+  font-size: 1.125rem;
+}
+
+.address,
+.hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-style: normal;
+  font-size: 0.9375rem;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.address a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.newsletterCopy {
+  font-size: 0.9375rem;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.newsletter {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 22rem;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: #fff;
+  font-size: 0.9375rem;
+}
+
+.input::placeholder {
+  color: rgb(255 255 255 / 0.5);
+}
+
+.submit {
+  padding: 0.7rem 1.35rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  color: var(--lxp-ink);
+  font-size: var(--font-button-size);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: var(--lxp-highlight-soft);
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+}
+
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.socials a:hover {
+  color: #fff;
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 1.5rem var(--gutter) 2.5rem;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
+  font-size: 0.8125rem;
+  color: rgb(255 255 255 / 0.6);
+}
+
+.legal nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.legal a:hover {
+  color: #fff;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 989px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+}

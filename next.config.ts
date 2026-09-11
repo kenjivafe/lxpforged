@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
         hostname: "cdn.shopify.com",
         pathname: "/s/files/**",
       },
+      {
+        // Theme/marketing assets (hero slides, partner logos) are served from
+        // the storefront domain's CDN path rather than cdn.shopify.com.
+        protocol: "https",
+        hostname: "lxpforged.com",
+        pathname: "/cdn/shop/**",
+      },
     ],
   },
 };

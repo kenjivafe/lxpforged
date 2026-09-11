@@ -41,6 +41,22 @@ function endpoint(): string {
   return `https://${host}/api/${API_VERSION}/graphql.json`;
 }
 
+/**
+ * Which required Shopify variables are absent from the environment.
+ *
+ * Lets callers tell "not configured yet" apart from "configured, but Shopify
+ * rejected the request" — the two need very different fixes, and conflating
+ * them sends people to edit env files that are already correct.
+ */
+export function missingShopifyEnv(): string[] {
+  const missing: string[] = [];
+  if (!process.env.SHOPIFY_STORE_DOMAIN) missing.push("SHOPIFY_STORE_DOMAIN");
+  if (!process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+    missing.push("SHOPIFY_STOREFRONT_ACCESS_TOKEN");
+  }
+  return missing;
+}
+
 function accessToken(): string {
   const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
   if (!token) {
@@ -72,12 +88,17 @@ export async function shopifyFetch<T>({
 }): Promise<T> {
   let response: Response;
 
+  // Resolve configuration before the try, so a missing env var reports itself
+  // rather than being wrapped as "could not reach the API".
+  const url = endpoint();
+  const token = accessToken();
+
   try {
-    response = await fetch(endpoint(), {
+    response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": accessToken(),
+        "X-Shopify-Storefront-Access-Token": token,
       },
       body: JSON.stringify({ query, variables }),
       cache,
@@ -101,7 +122,17 @@ export async function shopifyFetch<T>({
   const json = (await response.json()) as GraphQLResponse<T>;
 
   if (json.errors?.length) {
-    throw new ShopifyError(json.errors.map((e) => e.message).join("; "), { query });
+    const message = json.errors.map((e) => e.message).join("; ");
+
+    // Shopify answers field-level failures with partial data: a metafield the
+    // token lacks scope for resolves to null and the query still succeeds.
+    // Throwing on that would take a whole product page down over an optional
+    // field, so surface it in the log and render what did come back.
+    if (json.data) {
+      console.warn(`Shopify returned partial data: ${message}`);
+    } else {
+      throw new ShopifyError(message, { query });
+    }
   }
 
   if (!json.data) {

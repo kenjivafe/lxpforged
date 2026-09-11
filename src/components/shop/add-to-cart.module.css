@@ -6,13 +6,15 @@
 
 .button {
   appearance: none;
-  border: 1px solid currentColor;
-  background: var(--foreground, #111);
-  color: var(--background, #fff);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--lxp-ink);
+  color: #fff;
   font: inherit;
-  font-weight: 600;
+  font-size: var(--font-button-size);
+  font-weight: 500;
   letter-spacing: 0.02em;
-  padding: 0.9rem 1.5rem;
+  padding: 0.95rem 1.5rem;
   cursor: pointer;
   transition: opacity 0.15s ease;
 }

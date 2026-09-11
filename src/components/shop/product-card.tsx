@@ -24,10 +24,20 @@ export function ProductCard({ product }: { product: Product }) {
         )}
         {!product.availableForSale ? (
           <span className={styles.badge}>Sold out</span>
+        ) : product.label ? (
+          <span
+            className={styles.badge}
+            style={product.labelColor ? { background: product.labelColor } : undefined}
+          >
+            {product.label}
+          </span>
         ) : null}
       </div>
-      <h2 className={styles.title}>{product.title}</h2>
-      <p className={styles.price}>{formatMoney(product.priceRange.minVariantPrice)}</p>
+      <div className={styles.body}>
+        {product.vendor ? <p className={styles.eyebrow}>{product.vendor}</p> : null}
+        <h3 className={styles.title}>{product.title}</h3>
+        <p className={styles.price}>{formatMoney(product.priceRange.minVariantPrice)}</p>
+      </div>
     </Link>
   );
 }
