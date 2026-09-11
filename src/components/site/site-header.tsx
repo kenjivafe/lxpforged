@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { mainNav } from "@/lib/site";
 
@@ -11,9 +11,27 @@ import styles from "./site-header.module.css";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [stuck, setStuck] = useState(false);
+  const sentinel = useRef<HTMLDivElement>(null);
+
+  // The header rounds into the announcement bar at rest, and squares off once
+  // it sticks to the viewport edge. A zero-height sentinel just above it makes
+  // that observable without listening to scroll.
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setStuck(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <>
+      <div ref={sentinel} className={styles.sentinel} aria-hidden="true" />
+      <header className={styles.header} data-stuck={stuck || undefined}>
       <div className={styles.inner}>
         <button
           type="button"
@@ -64,6 +82,7 @@ export function SiteHeader() {
           ))}
         </nav>
       ) : null}
-    </header>
+      </header>
+    </>
   );
 }
