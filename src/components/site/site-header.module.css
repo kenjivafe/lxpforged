@@ -13,7 +13,9 @@
   gap: 1rem;
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: 1rem var(--gutter);
+  /* 32px vertical, 48px horizontal at desktop — the live header measures 132px
+   * tall with a 150x68 logo inside. */
+  padding: clamp(0.875rem, 0.65rem + 1.5vw, 2rem) var(--gutter);
 }
 
 .brand {
@@ -23,7 +25,7 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 0.25rem + 2vw, 2.5rem);
+  gap: clamp(1rem, 0.25rem + 1.85vw, 2.5rem);
   justify-self: center;
 }
 

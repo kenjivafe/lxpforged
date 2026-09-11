@@ -32,16 +32,30 @@
   --font-nav-size: clamp(0.875rem, 0.748rem + 0.3174vw, 1.125rem);
   --font-button-size: clamp(0.875rem, 0.8115rem + 0.1587vw, 1rem);
 
+  /* Type scale measured off the live site at a 1440px viewport:
+   *   section headings   48.50px   (Novitec, Collectibles, Performance…)
+   *   page/hero headings 36.37px   (hero h1, AUTHORIZED PARTNERS)
+   *   sub headings       30.00px
+   * All at weight 700, line-height 1.0, letter-spacing -0.03em. The clamps
+   * are tuned to land on those exact figures at 1440 and scale down. */
+  --font-h1: clamp(1.75rem, 1.1rem + 1.8vw, 2.2734rem);
+  --font-h2: clamp(2rem, 1.2rem + 2.22vw, 3.0312rem);
+  --font-h3: clamp(1.375rem, 1.1rem + 0.9vw, 1.875rem);
+
   /* Shape — the theme rounds nearly everything, including the page shell. */
   --radius-sm: 8px;
   --radius-md: 16px;
-  --radius-lg: 24px;
+  /* The live shell rounds at 22.72px on a 1440 viewport. */
+  --radius-lg: 22.72px;
   --radius-pill: 999px;
 
   /* Layout */
   --page-max: 1440px;
-  --gutter: clamp(1rem, 0.5rem + 2vw, 3rem);
-  --section-gap: clamp(3.5rem, 2rem + 6vw, 7rem);
+  /* 48px at desktop — the live header's horizontal padding. */
+  --gutter: clamp(1rem, 1rem + 2.22vw, 3rem);
+  /* Live sections run 72px of top padding; the carousel rows use 100px. */
+  --section-gap: clamp(2.5rem, 1.5rem + 3.33vw, 4.5rem);
+  --section-gap-lg: clamp(3.5rem, 2rem + 4.6vw, 6.25rem);
 }
 
 *,
