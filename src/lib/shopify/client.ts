@@ -51,24 +51,20 @@ function endpoint(): string {
 export function missingShopifyEnv(): string[] {
   const missing: string[] = [];
   if (!process.env.SHOPIFY_STORE_DOMAIN) missing.push("SHOPIFY_STORE_DOMAIN");
+  if (!process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+    missing.push("SHOPIFY_STOREFRONT_ACCESS_TOKEN");
+  }
   return missing;
 }
 
-/**
- * The Storefront access token, when one is configured.
- *
- * Optional by design. Shopify serves public catalogue and cart operations to
- * unauthenticated Storefront requests, so the app stays functional without a
- * token — and sending a *wrong* token is worse than sending none, since that
- * is rejected with a 401 where an absent one is not.
- *
- * A real token is still the right end state: it is the documented path, it is
- * required for non-public data, and unauthenticated access is behaviour
- * Shopify could tighten. An empty string is treated as absent so a blank
- * dashboard variable doesn't produce an empty header.
- */
-function accessToken(): string | undefined {
-  return process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || undefined;
+function accessToken(): string {
+  const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+  if (!token) {
+    throw new ShopifyError(
+      "SHOPIFY_STOREFRONT_ACCESS_TOKEN is not set. Copy .env.example to .env.local and fill it in.",
+    );
+  }
+  return token;
 }
 
 type GraphQLResponse<T> = {
@@ -97,13 +93,13 @@ export async function shopifyFetch<T>({
   const url = endpoint();
   const token = accessToken();
 
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) headers["X-Shopify-Storefront-Access-Token"] = token;
-
   try {
     response = await fetch(url, {
       method: "POST",
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": token,
+      },
       body: JSON.stringify({ query, variables }),
       cache,
       ...(tags || revalidate !== undefined
