@@ -24,6 +24,13 @@ export function ProductCard({ product }: { product: Product }) {
         )}
         {!product.availableForSale ? (
           <span className={styles.badge}>Sold out</span>
+        ) : product.label ? (
+          <span
+            className={styles.badge}
+            style={product.labelColor ? { background: product.labelColor } : undefined}
+          >
+            {product.label}
+          </span>
         ) : null}
       </div>
       <div className={styles.body}>

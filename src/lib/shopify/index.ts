@@ -18,13 +18,42 @@ import type {
   Cart,
   Collection,
   Connection,
+  MetafieldValue,
   Product,
+  ProductSpec,
   ShopifyCart,
+  ShopifyMetaobject,
   ShopifyProduct,
 } from "./types";
 
 function flatten<T>(connection: Connection<T> | null | undefined): T[] {
   return connection?.edges.map((edge) => edge.node) ?? [];
+}
+
+/**
+ * Shopify stores the label pill as a JSON-encoded list even though the theme
+ * only ever renders the first entry, so take the head and fall back to the raw
+ * string if it isn't valid JSON.
+ */
+function firstListValue(metafield: MetafieldValue): string | null {
+  if (!metafield?.value) return null;
+  try {
+    const parsed: unknown = JSON.parse(metafield.value);
+    if (Array.isArray(parsed)) return typeof parsed[0] === "string" ? parsed[0] : null;
+  } catch {
+    // Not JSON — a plain single_line_text_field.
+  }
+  return metafield.value;
+}
+
+function reshapeSpec(metaobject: ShopifyMetaobject): ProductSpec {
+  const field = (key: string) => metaobject.fields.find((f) => f.key === key);
+  return {
+    id: metaobject.id,
+    title: field("title")?.value ?? "",
+    description: field("description")?.value ?? "",
+    icon: field("icon")?.reference?.image ?? null,
+  };
 }
 
 function reshapeProduct(product: ShopifyProduct | null): Product | null {
@@ -33,6 +62,13 @@ function reshapeProduct(product: ShopifyProduct | null): Product | null {
     ...product,
     variants: flatten(product.variants),
     images: flatten(product.images),
+    label: firstListValue(product.label),
+    labelColor: product.labelColor?.value ?? null,
+    specialOrder: product.specialOrder?.value === "true",
+    specs: flatten(product.specs?.references)
+      .map(reshapeSpec)
+      // A spec with no title has nothing to render.
+      .filter((spec) => spec.title !== ""),
   };
 }
 

@@ -1,0 +1,52 @@
+.card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.heading {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin-bottom: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.75rem;
+  color: var(--muted);
+}

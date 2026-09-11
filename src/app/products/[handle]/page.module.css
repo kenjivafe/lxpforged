@@ -18,9 +18,10 @@
 
 .layout {
   display: grid;
-  gap: 3rem;
+  gap: clamp(2rem, 1rem + 3vw, 4rem);
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   align-items: start;
+  margin-bottom: 2.5rem;
 }
 
 @media (max-width: 900px) {
@@ -75,4 +76,29 @@
 
 .description :global(p) {
   margin: 0 0 1em;
+}
+
+.detailsSection {
+  padding-top: var(--section-gap);
+}
+
+.detailsHeading {
+  font-size: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+  margin-bottom: 1.5rem;
+}
+
+.description :global(h2),
+.description :global(h3) {
+  font-size: 1.125rem;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.description :global(ul) {
+  padding-left: 1.1rem;
+  margin: 0 0 1em;
+}
+
+.description :global(li) {
+  margin-bottom: 0.35rem;
 }

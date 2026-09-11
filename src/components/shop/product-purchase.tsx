@@ -38,6 +38,20 @@ export function ProductPurchase({ product }: { product: Product }) {
 
   return (
     <div className={styles.root}>
+      {product.label ? (
+        <p
+          className={styles.label}
+          // The theme stores the pill colour per product, so it has to be an
+          // inline style rather than a token.
+          style={product.labelColor ? { background: product.labelColor } : undefined}
+        >
+          {product.label}
+        </p>
+      ) : null}
+
+      <p className={styles.vendor}>{product.vendor}</p>
+      <h1 className={styles.title}>{product.title}</h1>
+
       <p className={styles.price}>
         <span>{formatMoney(price)}</span>
         {isOnSale(price, compareAt) && compareAt ? (
@@ -45,9 +59,17 @@ export function ProductPurchase({ product }: { product: Product }) {
         ) : null}
       </p>
 
+      <p className={styles.shipping}>
+        <span className={styles.shippingLink}>Shipping</span> calculated at checkout.
+      </p>
+
+      {variant?.sku ? <p className={styles.sku}>{variant.sku}</p> : null}
+
       {realOptions.map((option) => (
         <fieldset key={option.id} className={styles.fieldset}>
-          <legend className={styles.legend}>{option.name}</legend>
+          <legend className={styles.legend}>
+            {option.name}: <span className={styles.legendValue}>{selection[option.name]}</span>
+          </legend>
           <div className={styles.options}>
             {option.values.map((value) => {
               const candidate = matchVariant(product, {
@@ -78,6 +100,20 @@ export function ProductPurchase({ product }: { product: Product }) {
       ))}
 
       <AddToCart variant={variant} />
+
+      {product.specialOrder ? (
+        <aside className={styles.specialOrder}>
+          <h2 className={styles.specialOrderHeading}>Special order item!</h2>
+          <p>
+            This product is ordered directly from the manufacturer and is not
+            stocked locally. Estimated lead time: 4&ndash;6 weeks.
+          </p>
+          <p>
+            Once confirmed, special order items cannot be cancelled, returned, or
+            refunded.
+          </p>
+        </aside>
+      ) : null}
     </div>
   );
 }

@@ -122,7 +122,17 @@ export async function shopifyFetch<T>({
   const json = (await response.json()) as GraphQLResponse<T>;
 
   if (json.errors?.length) {
-    throw new ShopifyError(json.errors.map((e) => e.message).join("; "), { query });
+    const message = json.errors.map((e) => e.message).join("; ");
+
+    // Shopify answers field-level failures with partial data: a metafield the
+    // token lacks scope for resolves to null and the query still succeeds.
+    // Throwing on that would take a whole product page down over an optional
+    // field, so surface it in the log and render what did come back.
+    if (json.data) {
+      console.warn(`Shopify returned partial data: ${message}`);
+    } else {
+      throw new ShopifyError(message, { query });
+    }
   }
 
   if (!json.data) {

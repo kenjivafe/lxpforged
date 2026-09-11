@@ -68,3 +68,73 @@
   opacity: 0.4;
   text-decoration: line-through;
 }
+
+.label {
+  align-self: flex-start;
+  margin: 0;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--lxp-ink);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vendor {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.shipping {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.shippingLink {
+  text-decoration: underline;
+  color: var(--foreground);
+}
+
+.sku {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.legendValue {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--foreground);
+}
+
+.specialOrder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.specialOrderHeading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
