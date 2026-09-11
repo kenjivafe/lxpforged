@@ -6,6 +6,7 @@ import { ArrowRightIcon } from "@/components/site/icons";
 import { Marquee } from "@/components/site/marquee";
 import { ProductCard } from "@/components/shop/product-card";
 import { getProducts } from "@/lib/shopify";
+import { missingShopifyEnv } from "@/lib/shopify/client";
 import type { Product } from "@/lib/shopify/types";
 import { heroSlides, marqueeText, partners } from "@/lib/site";
 
@@ -14,12 +15,18 @@ import styles from "./page.module.css";
 export default async function HomePage() {
   // The build should not depend on Shopify credentials being present.
   let products: Product[] = [];
-  let unavailable = false;
+  let failure: string | null = null;
 
   try {
     products = await getProducts({ first: 8 });
-  } catch {
-    unavailable = true;
+  } catch (error) {
+    const missing = missingShopifyEnv();
+    failure = missing.length
+      ? `Not configured — ${missing.join(" and ")} missing from this environment.`
+      : "Shopify rejected the catalogue request. The variables are set, so check the token and its scopes.";
+    // The client builds precise messages (HTTP status, Shopify's own error
+    // text); surface them in the server log instead of swallowing them.
+    console.error("Catalogue fetch failed:", error);
   }
 
   return (
@@ -86,10 +93,10 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {unavailable ? (
+        {failure ? (
           <p className={styles.notice}>
-            Catalogue unavailable — set <code>SHOPIFY_STORE_DOMAIN</code> and{" "}
-            <code>SHOPIFY_STOREFRONT_ACCESS_TOKEN</code> in <code>.env.local</code>.
+            Catalogue unavailable. {failure} See the server log for the exact
+            error.
           </p>
         ) : products.length > 0 ? (
           <div className={styles.grid}>
